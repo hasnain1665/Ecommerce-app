@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import cors from "cors";
 
 // configure env
@@ -21,6 +22,7 @@ app.use(cors());
 app.use("/auth", authRoutes);
 app.use("/category", categoryRoutes);
 app.use("/product", productRoutes);
+app.use("/user", userRoutes);
 
 // rest api
 app.get("/", (req, res) => {

@@ -1,0 +1,521 @@
+/* Login Page */
+
+/* Background and container */
+.register-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background pattern */
+.register-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      rgba(255, 215, 0, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 215, 0, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(255, 215, 0, 0.05) 0%,
+      transparent 50%
+    );
+  animation: backgroundFloat 20s ease-in-out infinite;
+}
+
+@keyframes backgroundFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+}
+
+/* Form container */
+.form-container {
+  background: rgba(35, 35, 35, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 215, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  max-width: 450px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  animation: formSlideIn 0.8s ease-out;
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Form container glow effect */
+.form-container::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ffd700, transparent, #ffd700);
+  border-radius: 20px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.form-container:hover::before {
+  opacity: 0.5;
+  animation: borderGlow 2s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Title styling */
+.title {
+  color: #fff;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+  border-radius: 2px;
+}
+
+/* Form group styling */
+.mb-3 {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* FIXED Input field styling */
+.form-control {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  font-size: 1rem;
+  background: rgba(15, 15, 15, 0.9) !important;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  color: #ffffff !important; /* Force white text */
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-text-fill-color: #ffffff !important; /* For webkit browsers */
+  -webkit-appearance: none; /* Remove default styling */
+  -moz-appearance: none; /* Remove default styling */
+  appearance: none; /* Remove default styling */
+}
+
+/* Specifically target input elements */
+input.form-control {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Target specific input types */
+input[type="email"].form-control,
+input[type="password"].form-control,
+input[type="text"].form-control {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: rgba(15, 15, 15, 0.9) !important;
+}
+
+/* FIXED Autofill styling */
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+.form-control:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(15, 15, 15, 0.9) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  background-color: rgba(15, 15, 15, 0.9) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-control::placeholder {
+  color: rgba(224, 224, 224, 0.6) !important;
+  font-weight: 400;
+  opacity: 1; /* Ensure placeholder is visible */
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #ffd700;
+  background: rgba(10, 10, 10, 0.95) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2),
+    0 8px 25px rgba(255, 215, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.form-control:hover {
+  border-color: rgba(255, 215, 0, 0.5);
+  background: rgba(12, 12, 12, 0.92) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+/* Additional specificity for React components */
+.register-bg .form-control,
+.login-bg .form-control,
+.form-container .form-control {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: rgba(15, 15, 15, 0.9) !important;
+}
+
+/* Fix for Bootstrap overrides */
+.form-control:not(:placeholder-shown) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Selection styling */
+.form-control::selection {
+  background-color: rgba(255, 215, 0, 0.3);
+  color: #ffffff;
+}
+
+.form-control::-moz-selection {
+  background-color: rgba(255, 215, 0, 0.3);
+  color: #ffffff;
+}
+
+/* Floating label effect */
+.mb-3::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -8px;
+  left: 15px;
+  background: rgba(45, 45, 45, 0.9);
+  color: #ffd700;
+  padding: 0 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.form-control:focus + .mb-3::before,
+.form-control:not(:placeholder-shown) + .mb-3::before {
+  opacity: 1;
+}
+
+/* Button styling */
+.button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border: none;
+  border-radius: 12px;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.button:hover::before {
+  left: 100%;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4),
+    0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+.button:active {
+  transform: translateY(-1px);
+}
+
+/* Forgot password link */
+.text-end {
+  text-align: right;
+  margin-bottom: 2rem;
+}
+
+.text-end span {
+  color: #ffd700 !important;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.text-end span::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffd700;
+  transition: width 0.3s ease;
+}
+
+.text-end span:hover {
+  color: #ffed4e !important;
+  transform: translateX(3px);
+}
+
+.text-end span:hover::after {
+  width: 100%;
+}
+
+/* Loading state */
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .register-bg {
+    padding: 1rem;
+  }
+
+  .form-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+    border-radius: 15px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-control {
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .button {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .form-control {
+    padding: 0.8rem;
+  }
+}
+
+/* Success/Error animations */
+.form-control.error {
+  border-color: #ff4757;
+  animation: shake 0.5s ease-in-out;
+}
+
+.form-control.success {
+  border-color: #2ed573;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff4757;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(26, 26, 26, 0.3);
+  border-radius: 50%;
+  border-top-color: #1a1a1a;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Auth footer */
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.auth-footer p {
+  color: #e0e0e0;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.auth-link {
+  color: #ffd700 !important;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.auth-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffd700;
+  transition: width 0.3s ease;
+}
+
+.auth-link:hover {
+  color: #ffed4e !important;
+}
+
+.auth-link:hover::after {
+  width: 100%;
+}
+
+/* Disabled link styling */
+.disabled-link {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+/* Custom scrollbar for webkit browsers */
+.form-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 3px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background: #ffd700;
+  border-radius: 3px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+  background: #ffed4e;
+}

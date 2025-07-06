@@ -7,6 +7,23 @@ import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {
+  AiOutlineEdit,
+  AiOutlineDelete,
+  AiOutlineUpload,
+  AiOutlineShoppingCart,
+  AiOutlineDollarCircle,
+  AiOutlineFileText,
+  AiOutlineNumber,
+  AiOutlineDeliveredProcedure,
+  AiOutlineAppstore,
+  AiOutlineCamera,
+  AiOutlineSave,
+  AiOutlineArrowLeft,
+} from "react-icons/ai";
+import { BsWatch } from "react-icons/bs";
+import "../../styles/UpdateProduct.css";
+
 const { Option } = Select;
 
 const UpdateProduct = () => {
@@ -21,11 +38,13 @@ const UpdateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
   const [id, setId] = useState("");
+  const [loading, setLoading] = useState(false);
   const [auth] = useAuth();
 
   // Update Product Function
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const productData = new FormData();
       productData.append("name", name);
@@ -34,6 +53,7 @@ const UpdateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("category", category);
       photo && productData.append("photo", photo);
+
       const { data } = await axios.put(
         `http://localhost:8000/product/update-product/${id}`,
         productData,
@@ -52,21 +72,34 @@ const UpdateProduct = () => {
     } catch (error) {
       console.log("Update error:", error.response || error.message || error);
       toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   // Delete Product Function
   const handleDelete = async () => {
     const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Delete Product?",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#ff4757",
+      cancelButtonColor: "#ffd700",
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      background: "#2d2d2d",
+      color: "#e0e0e0",
+      customClass: {
+        popup: "swal-custom-popup",
+        title: "swal-custom-title",
+        confirmButton: "swal-custom-confirm",
+        cancelButton: "swal-custom-cancel",
+      },
     });
+
     if (result.isConfirmed) {
+      setLoading(true);
       try {
         const { data } = await axios.delete(
           `http://localhost:8000/product/delete-product/${id}`,
@@ -85,6 +118,8 @@ const UpdateProduct = () => {
       } catch (error) {
         console.log(error);
         toast.error("Something went wrong");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -116,6 +151,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     getSingleProduct();
   }, []);
+
   // Get All Categories
   const getAllCategory = async () => {
     try {
@@ -141,126 +177,215 @@ const UpdateProduct = () => {
   }, [auth?.token]);
 
   return (
-    <Layout title="Dashboard - Create Product">
-      <div className="container-fluid m-3 p-3">
-        <div className="row">
-          <div className="col-md-3">
+    <Layout title="Dashboard - Update Product">
+      <div className="update-product-container">
+        <div className="update-product-content">
+          <div className="sidebar-section">
             <AdminMenu />
           </div>
-          <div className="col-md-9">
-            <h1>Update Product</h1>
-            <div className="m-1 w-75">
-              <Select
-                bordered={false}
-                placeholder="Select a Category"
-                size="large"
-                showSearch
-                className="form-select mb-3"
-                onChange={(value) => setCategory(value)} // value is category ID string
-                value={category} // keep category as ID string
-              >
-                {categories.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
 
-              <div className="mb-3">
-                <input
-                  type="text"
-                  name="name"
-                  value={name}
-                  placeholder="Enter Product Name"
-                  className="form-control"
-                  onChange={(e) => setName(e.target.value)}
-                />
+          <div className="main-section">
+            {/* Header */}
+            <div className="update-header">
+              <div className="header-left">
+                <button
+                  className="back-btn"
+                  onClick={() => navigate("/dashboard/admin/products")}
+                >
+                  <AiOutlineArrowLeft />
+                </button>
+                <div className="header-icon">
+                  <AiOutlineEdit />
+                </div>
+                <div className="header-content">
+                  <h1 className="page-title">Update Product</h1>
+                  <p className="page-subtitle">
+                    Edit your premium watch details
+                  </p>
+                </div>
               </div>
-              <div className="mb-3">
-                <textarea
-                  name="description"
-                  value={description}
-                  placeholder="Enter Description"
-                  className="form-control"
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
+            </div>
+
+            {/* Form Card */}
+            <div className="product-form-card">
+              <div className="form-header">
+                <div className="form-title">
+                  <AiOutlineShoppingCart />
+                  <span>Product Information</span>
+                </div>
               </div>
-              <div className="mb-3">
-                <input
-                  type="number"
-                  name="price"
-                  value={price}
-                  placeholder="Enter Price"
-                  className="form-control"
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="number"
-                  name="quantity"
-                  value={quantity}
-                  placeholder="Enter Quantity"
-                  className="form-control"
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-              </div>
-              <Select
-                bordered={false}
-                placeholder="Select Shipping"
-                size="large"
-                showSearch
-                className="form-select mb-3"
-                onChange={(value) => setShipping(value)}
-                value={shipping ? "1" : "0"}
-              >
-                <Option value="0">No</Option>
-                <Option value="1">Yes</Option>
-              </Select>
-              <div className="mb-3">
-                <label className="btn btn-outline-secondary col-md-6">
-                  {photo ? photo.name : "Upload Photo"}
+
+              <form onSubmit={handleUpdate} className="product-form">
+                {/* Category Selection */}
+                <div className="form-group">
+                  <label className="form-label">
+
+                    Category
+                  </label>
+                  <Select
+                    bordered={false}
+                    placeholder="Select a Category"
+                    size="large"
+                    showSearch
+                    className="custom-select"
+                    onChange={(value) => setCategory(value)}
+                    value={category}
+                  >
+                    {categories.map((c) => (
+                      <Option key={c._id} value={c._id}>
+                        {c.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+
+                {/* Product Name */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Product Name
+                  </label>
                   <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden
+                    type="text"
+                    name="name"
+                    value={name}
+                    placeholder="Enter product name"
+                    className="form-input"
+                    onChange={(e) => setName(e.target.value)}
+                    required
                   />
-                </label>
-              </div>
+                </div>
 
-              <div className="mb-3">
-                {photo ? (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
+                {/* Description */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    value={description}
+                    placeholder="Enter product description"
+                    className="form-textarea"
+                    rows="4"
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  />
+                </div>
+
+                {/* Price and Quantity Row */}
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">
+                      Price (Rs)
+                    </label>
+                    <input
+                      type="number"
+                      name="price"
+                      value={price}
+                      placeholder="0.00"
+                      className="form-input"
+                      onChange={(e) => setPrice(e.target.value)}
+                      required
                     />
                   </div>
-                ) : (
-                  <div className="text-center">
-                    <img
-                      src={`http://localhost:8000/product/product-photo/${id}`}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
+                  <div className="form-group">
+                    <label className="form-label">
+                      Quantity
+                    </label>
+                    <input
+                      type="number"
+                      name="quantity"
+                      value={quantity}
+                      placeholder="0"
+                      className="form-input"
+                      onChange={(e) => setQuantity(e.target.value)}
+                      required
                     />
+                  </div>
+                </div>
+
+                {/* Shipping */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Shipping Available
+                  </label>
+                  <Select
+                    bordered={false}
+                    placeholder="Select shipping option"
+                    size="large"
+                    className="custom-select"
+                    onChange={(value) => setShipping(value)}
+                    value={shipping ? "1" : "0"}
+                  >
+                    <Option value="0">No</Option>
+                    <Option value="1">Yes</Option>
+                  </Select>
+                </div>
+
+                {/* Photo Upload */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Product Photo
+                  </label>
+                  <div className="photo-upload-section">
+                    <label className="photo-upload-btn">
+                      <AiOutlineUpload />
+                      {photo ? photo.name : "Choose Photo"}
+                      <input
+                        type="file"
+                        name="photo"
+                        accept="image/*"
+                        onChange={(e) => setPhoto(e.target.files[0])}
+                        hidden
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {/* Photo Preview */}
+                {(photo || id) && (
+                  <div className="photo-preview">
+                    <div className="preview-label">
+                      Current Photo
+                    </div>
+                    <div className="preview-container">
+                      <img
+                        src={
+                          photo
+                            ? URL.createObjectURL(photo)
+                            : `http://localhost:8000/product/product-photo/${id}`
+                        }
+                        alt="product preview"
+                        className="preview-image"
+                      />
+                    </div>
                   </div>
                 )}
-              </div>
-              <div className="mb-3">
-                <button className="btn btn-primary" onClick={handleUpdate}>
-                  Update Product
-                </button>
-              </div>
-              <div className="mb-3">
-                <button className="btn btn-danger" onClick={handleDelete}>
-                  Delete Product
-                </button>
-              </div>
+
+                {/* Action Buttons */}
+                <div className="form-actions">
+                  <button
+                    type="submit"
+                    className="update-btn"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <div className="loading-spinner"></div>
+                    ) : (
+                      <AiOutlineSave />
+                    )}
+                    {loading ? "Updating..." : "Update Product"}
+                  </button>
+                  <button
+                    type="button"
+                    className="delete-btn"
+                    onClick={handleDelete}
+                    disabled={loading}
+                  >
+                    <AiOutlineDelete />
+                    Delete Product
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

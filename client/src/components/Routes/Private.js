@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner";
 
 export default function PrivateRoute() {
-  const [ok, setOk] = useState(false);
+  const [ok, setOk] = useState(null); // start as null to detect "checking"
   const [auth] = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const authCheck = async () => {
@@ -19,15 +18,20 @@ export default function PrivateRoute() {
         });
         setOk(res.data.ok);
       } catch (error) {
-        console.error("Auth check failed", error);
         setOk(false);
       }
     };
+
     if (auth?.token) {
       authCheck();
     } else {
+      setOk(false);
     }
-  }, [auth?.token, navigate]);
+  }, [auth?.token]);
 
-  return ok ? <Outlet /> : <Spinner />;
+  if (ok === null) {
+    return <Spinner />;
+  }
+
+  return ok ? <Outlet /> : <Navigate to="/login" />;
 }

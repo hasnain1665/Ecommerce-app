@@ -9,6 +9,9 @@ import {
   productFiltersController,
   productCountController,
   productListController,
+  searchProductController,
+  relatedProductController,
+  productCategoryController,
 } from "../controllers/productController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import ExpressFormidable from "express-formidable";
@@ -59,6 +62,15 @@ router.post("/product-filters", productFiltersController);
 router.get("/product-count", productCountController);
 
 // PRODCTS PER PAGE / METHOD GET
-router.get("/product-list/:page",productListController)
+router.get("/product-list/:page", productListController);
+
+// SEARCH PRODUCT / METHOD GET
+router.get("/search/:keyword", searchProductController);
+
+// SIMILAR PRODUCTS / METHOD GET
+router.get("/related-product/:pid/:cid", relatedProductController);
+
+// CATEGORY WISE PRODUCT/ METHOD GET
+router.get("/product-category/:slug", productCategoryController);
 
 export default router;

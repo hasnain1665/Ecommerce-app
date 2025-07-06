@@ -1,33 +1,35 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner";
 
-export default function PrivateRoute() {
-  const [ok, setOk] = useState(false);
+export default function AdminRoute() {
+  const [ok, setOk] = useState(null); // null = loading
   const [auth] = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const authCheck = async () => {
       try {
         const res = await axios.get("http://localhost:8000/auth/admin-auth", {
           headers: {
-            Authorization: auth?.token,
+            Authorization: `Bearer ${auth?.token}`,
           },
         });
         setOk(res.data.ok);
       } catch (error) {
-        console.error("Auth check failed", error);
+        console.error("Admin auth check failed", error);
         setOk(false);
       }
     };
     if (auth?.token) {
       authCheck();
     } else {
+      setOk(false);
     }
-  }, [auth?.token, navigate]);
+  }, [auth?.token]);
 
-  return ok ? <Outlet /> : <Spinner path="" />;
+  if (ok === null) return <Spinner />;
+
+  return ok ? <Outlet /> : <Navigate to="/" />;
 }

@@ -1,0 +1,254 @@
+/* 404 Page */
+
+.pnf {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 1rem;
+  }
+  
+  .pnf-container {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    max-width: 600px;
+    padding: 3rem 2rem;
+    background: rgba(45, 45, 45, 0.8);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .pnf-watch-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: watchTick 2s ease-in-out infinite;
+    display: inline-block;
+  }
+  
+  .pnf-title {
+    font-size: 8rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  
+  .pnf-heading {
+    font-size: 2.5rem;
+    color: #e0e0e0;
+    margin: 1rem 0;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  .pnf-description {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    margin: 1.5rem 0 2.5rem 0;
+    line-height: 1.6;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .pnf-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .pnf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    min-width: 140px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .pnf-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .pnf-btn:hover::before {
+    left: 100%;
+  }
+  
+  .pnf-btn-primary {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #1a1a1a;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+  }
+  
+  .pnf-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    color: #1a1a1a;
+  }
+  
+  .pnf-btn-secondary {
+    background: transparent;
+    color: #e0e0e0;
+    border: 2px solid #ffd700;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
+  }
+  
+  .pnf-btn-secondary:hover {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+  }
+  
+  /* Background decorations */
+  .pnf-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .pnf-gear {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.1;
+    animation: rotate 10s linear infinite;
+  }
+  
+  .pnf-gear-1 {
+    top: 10%;
+    left: 10%;
+    animation-duration: 8s;
+  }
+  
+  .pnf-gear-2 {
+    top: 20%;
+    right: 15%;
+    animation-duration: 12s;
+    animation-direction: reverse;
+  }
+  
+  .pnf-gear-3 {
+    bottom: 15%;
+    left: 20%;
+    animation-duration: 15s;
+  }
+  
+  /* Animations */
+  @keyframes watchTick {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-15deg); }
+  }
+  
+  @keyframes glow {
+    0% { text-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+    100% { text-shadow: 0 0 50px rgba(255, 215, 0, 0.6); }
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .pnf-container {
+      padding: 2rem 1.5rem;
+      margin: 1rem;
+    }
+  
+    .pnf-title {
+      font-size: 6rem;
+    }
+  
+    .pnf-heading {
+      font-size: 2rem;
+    }
+  
+    .pnf-description {
+      font-size: 1rem;
+    }
+  
+    .pnf-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .pnf-btn {
+      width: 100%;
+      max-width: 200px;
+    }
+  
+    .pnf-watch-icon {
+      font-size: 3rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pnf {
+      padding: 1rem 0.5rem;
+    }
+  
+    .pnf-container {
+      padding: 1.5rem 1rem;
+    }
+  
+    .pnf-title {
+      font-size: 4.5rem;
+    }
+  
+    .pnf-heading {
+      font-size: 1.5rem;
+    }
+  
+    .pnf-gear {
+      font-size: 2rem;
+    }
+  }
+  
+  /* Loading animation for page transition */
+  .pnf-container {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

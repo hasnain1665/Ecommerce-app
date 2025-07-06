@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import productModel from "../models/productModel.js";
+import categoryModel from "../models/categoryModel.js";
 import slugify from "slugify";
 import fs from "fs";
 
@@ -257,6 +258,74 @@ export const productListController = async (req, res) => {
     res.status(400).send({
       success: false,
       message: "Error in getting product count",
+      error,
+    });
+  }
+};
+
+// Search Product
+export const searchProductController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const result = await productModel
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo");
+    res.status(200).send({
+      success: true,
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error in product search",
+      error,
+    });
+  }
+};
+
+// Similar Products
+export const relatedProductController = async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+    const products = await productModel
+      .find({ category: cid, _id: { $ne: pid } })
+      .select("-photo")
+      .limit(3)
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      message: "Error while getting related products",
+      error,
+    });
+  }
+};
+
+// Category Wise Products
+export const productCategoryController = async (req, res) => {
+  try {
+    const category = await categoryModel.findOne({ slug: req.params.slug });
+    const products = await productModel.find({ category }).populate("category");
+    res.status(200).send({
+      success: true,
+      category,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error in fetching products",
       error,
     });
   }
